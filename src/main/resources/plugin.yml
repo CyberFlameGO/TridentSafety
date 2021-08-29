@@ -4,3 +4,5 @@ version: ${project.version}
 description: TridentSafety
 website: https://cyberfla.me/
 author: CyberFlame
+api-version: 1.17
+load: POSTWORLD
