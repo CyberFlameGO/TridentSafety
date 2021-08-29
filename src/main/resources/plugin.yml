@@ -1,6 +1,6 @@
 name: ${project.name}
-main: net.cyberflame.plugin.Plugin
+main: net.cyberflame.tridentsafety.Main
 version: ${project.version}
-description: Plugin
+description: TridentSafety
 website: https://cyberfla.me/
 author: CyberFlame

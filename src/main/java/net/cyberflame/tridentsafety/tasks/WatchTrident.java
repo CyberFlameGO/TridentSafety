@@ -1,7 +1,7 @@
 package net.cyberflame.tridentsafety.tasks;
 
 import net.cyberflame.tridentsafety.Main;
-import net.cyberflame.tridentsafety.ReflUtils;
+import net.cyberflame.tridentsafety.utils.ReflectionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Trident;
@@ -11,47 +11,55 @@ import org.bukkit.util.Vector;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class WatchTrident extends BukkitRunnable {
+public class WatchTrident extends BukkitRunnable
+{
 
     private static final int MAX_TICKS = 1200;
     private static Field damageDealtField;
     private static Method getHandleMethod;
 
-    static {
-        int fieldCount = 0;
-        Class<?> entityThrownTridentClass = null;
-        try {
-             entityThrownTridentClass = ReflUtils.getNMSClass("EntityThrownTrident");
-        } catch (Throwable ignored) {
-            // 1.17+
-        }
-
-        try {
-            if(entityThrownTridentClass == null) {
-                // 1.17+
-                entityThrownTridentClass = Class.forName("net.minecraft.world.entity.projectile.EntityThrownTrident");
-            }
-            getHandleMethod = ReflUtils.getOBCClass("entity.CraftTrident").getMethod("getHandle");
-            for (Field field : entityThrownTridentClass.getDeclaredFields()) {
-                if (field.getType() == Boolean.TYPE) {
-                    damageDealtField = field;
-                    damageDealtField.setAccessible(true);
-                    fieldCount++;
+    static
+        {
+            int fieldCount = 0;
+            Class<?> entityThrownTridentClass = null;
+            try
+                {
+                    entityThrownTridentClass = ReflectionUtils.getNMSClass("EntityThrownTrident");
                 }
-            }
-        } catch (Exception e) {
-            damageDealtField = null;
-            getHandleMethod = null;
-            e.printStackTrace();
-        }
+            catch (Throwable ignored)
+                {
+                    // 1.17+
+                }
 
-        if (fieldCount == 1) {
-            Main.getInstance().debug("Tridents will be rescued using reflection (Field: " + damageDealtField.getName() + ")");
-        } else {
-            damageDealtField = null;
-            Main.getInstance().debug("Tridents will be rescued using the legacy setBlock method");
+            try
+                {
+                    if (entityThrownTridentClass == null)
+                        {
+                            // 1.17+
+                            entityThrownTridentClass =
+                                    Class.forName("net.minecraft.world.entity.projectile.EntityThrownTrident");
+                        }
+                    getHandleMethod = ReflectionUtils.getOBCClass("entity.CraftTrident").getMethod("getHandle");
+                    for (Field field : entityThrownTridentClass.getDeclaredFields())
+                        {
+                            if (field.getType() == Boolean.TYPE)
+                                {
+                                    damageDealtField = field;
+                                    damageDealtField.setAccessible(true);
+                                    fieldCount++;
+                                }
+                        }
+                }
+            catch (Exception e)
+                {
+                    damageDealtField = null;
+                    getHandleMethod  = null;
+                    e.printStackTrace();
+                }
+
+            if (! (fieldCount == 1)) damageDealtField = null;
+
         }
-    }
 
     private final Trident trident;
     private int ticks = 0;
@@ -64,13 +72,14 @@ public class WatchTrident extends BukkitRunnable {
         Location nextLocation = trident.getLocation().add(trident.getVelocity());
 
         if (nextLocation.getBlockY() > 1) return;
-        if (!nextLocation.getBlock().getType().isAir()) return;
+        if (! nextLocation.getBlock().getType().isAir()) return;
 
-        if (nextLocation.getBlockY() < 0) {
-            nextLocation.setY(0);
-            trident.teleport(nextLocation.clone().add(0, 1, 0));
-            trident.setVelocity(new Vector(0, -1, 0));
-        }
+        if (nextLocation.getBlockY() < 0)
+            {
+                nextLocation.setY(0);
+                trident.teleport(nextLocation.clone().add(0, 1, 0));
+                trident.setVelocity(new Vector(0, - 1, 0));
+            }
 
         nextLocation.getBlock().setType(Material.BARRIER);
         new RemoveBarrier(trident, nextLocation.getBlock()).runTaskTimer(Main.getInstance(), 1, 1);
@@ -78,29 +87,37 @@ public class WatchTrident extends BukkitRunnable {
     }
 
     private void rescue() {
-        if (trident.getLocation().getY() >= -60) return;
-        try {
-            damageDealtField.set(getHandleMethod.invoke(trident), true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            cancel();
-        }
+        if (trident.getLocation().getY() >= - 60) return;
+        try
+            {
+                damageDealtField.set(getHandleMethod.invoke(trident), true);
+            }
+        catch (Exception e)
+            {
+                e.printStackTrace();
+                cancel();
+            }
     }
 
     @Override
     public void run() {
 
         ticks++;
-        if (ticks >= MAX_TICKS || trident == null || trident.isDead() || !trident.isValid() || trident.getVelocity().length() == 0) {
-            cancel();
-            return;
-        }
+        if (ticks >= MAX_TICKS || trident == null || trident.isDead() || ! trident.isValid() ||
+            trident.getVelocity().length() == 0)
+            {
+                cancel();
+                return;
+            }
 
-        if (damageDealtField != null) {
-            rescue();
-        } else {
-            legacyRescue();
-        }
+        if (damageDealtField != null)
+            {
+                rescue();
+            }
+        else
+            {
+                legacyRescue();
+            }
 
     }
 }
