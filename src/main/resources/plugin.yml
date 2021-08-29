@@ -1,0 +1,6 @@
+name: ${project.name}
+main: net.cyberflame.plugin.Plugin
+version: ${project.version}
+description: Plugin
+website: https://cyberfla.me/
+author: CyberFlame
