@@ -1,3 +1,3 @@
-# plugin-template
+# TridentSafety
 
-Maven Bukkit/Spigot plugin template.
+A plugin coded against the 1.17.1 API which has some safeties in place for trident protection. W.I.P

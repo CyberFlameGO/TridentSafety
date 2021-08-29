@@ -1,6 +1,0 @@
-name: plugin
-main: net.cyberflame.plugin.Plugin
-version: 1.0.0
-description: Plugin
-website: https://cyberfla.me/
-author: CyberFlame
