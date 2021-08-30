@@ -34,10 +34,7 @@ public class EntityPickupItemListener implements Listener
             }
 
 
-        if (! EnchantmentUtils.isOffHandThrown(trident))
-            {
-                return;
-            }
+        if (! (EnchantmentUtils.isOffHandThrown(trident))) return;
         if (player.getInventory().getItemInOffHand().getType() != Material.AIR) return;
 
         ItemStack tridentItem = event.getItem().getItemStack().clone();

@@ -1,6 +1,6 @@
 name: TridentSafety
 main: net.cyberflame.tridentsafety.Main
-version: ${project.version}
+version: 1.0.0
 description: Safeties for tridents
 website: https://cyberfla.me/
 author: CyberFlame

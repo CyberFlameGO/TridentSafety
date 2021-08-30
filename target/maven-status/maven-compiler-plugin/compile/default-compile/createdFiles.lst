@@ -1,0 +1,9 @@
+net/cyberflame/tridentsafety/Main.class
+net/cyberflame/tridentsafety/tasks/MoveToOffHand.class
+net/cyberflame/tridentsafety/utils/ReflectionUtils.class
+net/cyberflame/tridentsafety/utils/EnchantmentUtils.class
+net/cyberflame/tridentsafety/listeners/ProjectileLaunchListener.class
+net/cyberflame/tridentsafety/listeners/EntityPortalListener.class
+net/cyberflame/tridentsafety/tasks/RemoveBarrier.class
+net/cyberflame/tridentsafety/tasks/WatchTrident.class
+net/cyberflame/tridentsafety/listeners/EntityPickupItemListener.class

@@ -45,10 +45,10 @@ public class ProjectileLaunchListener implements Listener
 
         if (tridentItem == null) return;
 
-        if (! EnchantmentUtils.hasLoyalty(tridentItem)) return;
+        if (! (EnchantmentUtils.hasLoyalty(tridentItem))) return;
 
         main.setLoyal(trident);
         new WatchTrident(trident).runTaskTimer(main, 1, 1);
-        Bukkit.getScheduler().runTaskLater(main, () -> main.removeLoyal(trident), 1200);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> main.removeLoyal(trident), 1200);
     }
 }
