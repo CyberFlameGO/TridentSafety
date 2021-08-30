@@ -8,7 +8,6 @@ import org.bukkit.entity.Trident;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import javax.swing.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
