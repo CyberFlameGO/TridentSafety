@@ -4,5 +4,5 @@ version: ${project.version}
 description: Safeties for tridents
 website: https://cyberfla.me/
 author: CyberFlame
-api-version: 1.17.1
+api-version: 1.17
 load: POSTWORLD
